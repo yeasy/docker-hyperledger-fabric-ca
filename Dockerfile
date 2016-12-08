@@ -3,12 +3,13 @@
 # Workdir is set to $GOPATH/src/github.com/hyperledger/fabric-cop
 # More usage infomation, please see https://github.com/hyperledger/fabric-cop.
 
-
 FROM golang:1.7
 MAINTAINER Baohua Yang
 
 ENV COP $GOPATH/src/github.com/hyperledger/fabric-cop
 ENV COP_DEBUG false
+
+EXPOSE 8888
 
 RUN mkdir -p $GOPATH/src/github.com/hyperledger
 
@@ -21,8 +22,9 @@ RUN cd $GOPATH/src/github.com/hyperledger \
     && cd fabric-cop \
     && make cop
 
-#RUN PATH=$GOPATH/src/github.com/hyperledger/fabric-cop/build/bin:$PATH
+# Then we can run `cop` cmd directly
+RUN PATH=$COP/bin/:$PATH
 
 WORKDIR $GOPATH/src/github.com/hyperledger/fabric-cop
 
-CMD ["$COP/bin/cop", "server", "start"]
+CMD ["cop", "server", "start", "-ca", "../testdata/cop-cert.pem", "-ca-key", "../testdata/cop-key.pem", "-config", "../testdata/cop.json"]

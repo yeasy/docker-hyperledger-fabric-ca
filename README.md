@@ -23,6 +23,60 @@ FROM yeasy/hyperledger-fabric-cop:latest
 
 ## Usage
 
+### As Server
+By default will start the cop server with default certificates and [$COP/testdata/cop.json](https://github.com/hyperledger/fabric-cop/blob/master/testdata/cop.json) file, and map to local `8888` port.
+
+```sh
+$ docker run -it -p 8888:8888 yeasy/hyperledger-fabric-cop
+```
+
+
+### As Client
+
+Note in the config file, we have the "admin" user with a password of "adminpw".
+
+#### Enroll the admin client
+
+```sh
+$ docker run -it --rm yeasy/hyperledger-fabric-cop cop client enroll admin adminpw http://localhost:8888
+```
+
+### Reenroll the admin client
+
+The following command renews the enrollment certificate of a client.
+
+```sh
+$ docker run -it --rm yeasy/hyperledger-fabric-cop cop client reenroll http://localhost:8888
+```
+
+Note that this updates the enrollment material in the `$COP_HOME/client.json` file.
+
+
+### Register a new user
+Need to config a json file first.
+
+e.g., the $COP/testdata/registerrequest.json:
+
+```json
+{
+  "id": "User1",
+  "type": "client",
+  "group": "bank_a",
+  "attrs": [{"name":"AttributeName","value":"AttributeValue"}]
+}
+```
+
+```sh
+$ docker run -it --rm yeasy/hyperledger-fabric-cop cop client register ../testdata/registerrequest.json http://localhost:8888
+```
+
+### Run tests
+
+```sh
+$ docker run -it --rm yeasy/hyperledger-fabric-cop make tests
+```
+### Custom cmd
+
 Login into the container and execute cmd as you like.
 
 ```sh
@@ -34,18 +88,13 @@ More usage, please refer to [https://github.com/hyperledger/fabric-cop](https://
 The image is built based on [golang](https://hub.docker.com/_/golang/) base image.
 
 # What has been changed?
-## install dependencies
-Install required  libsnappy-dev, zlib1g-dev, libbz2-dev.
 
-## install rocksdb
-Install required  rocksdb 4.1.
-
-## install hyperledger
-Install hyperledger and build the peer 
+## install fabric-cop
+Install and build fabric-cop as $COP/bin/cop.
 
 # Supported Docker versions
 
-This image is officially supported on Docker version 1.7.0.
+This image is officially supported on Docker version 1.7.0+.
 
 Support for older versions (down to 1.0) is provided on a best-effort basis.
 

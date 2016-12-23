@@ -6,8 +6,10 @@
 FROM golang:1.7
 MAINTAINER Baohua Yang
 
-ENV COP $GOPATH/src/github.com/hyperledger/fabric-cop
 ENV COP_DEBUG false
+ENV COP $GOPATH/src/github.com/hyperledger/fabric-cop
+# Then we can run `cop` cmd directly
+ENV PATH=$COP/bin/:$PATH
 
 EXPOSE 8888
 
@@ -21,9 +23,6 @@ RUN cd $GOPATH/src/github.com/hyperledger \
     && git clone --single-branch -b master --depth 1 https://github.com/hyperledger/fabric-cop \
     && cd fabric-cop \
     && make cop
-
-# Then we can run `cop` cmd directly
-RUN PATH=$COP/bin/:$PATH
 
 WORKDIR $GOPATH/src/github.com/hyperledger/fabric-cop
 

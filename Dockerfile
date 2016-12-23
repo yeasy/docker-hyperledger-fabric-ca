@@ -22,7 +22,7 @@ RUN go get github.com/go-sql-driver/mysql \
 RUN cd $GOPATH/src/github.com/hyperledger \
     && git clone --single-branch -b master --depth 1 https://github.com/hyperledger/fabric-cop \
     && cd fabric-cop \
-    && make cop
+    && mkdir -p bin && cd cli && go build -o ../bin/cop
 
 WORKDIR $GOPATH/src/github.com/hyperledger/fabric-cop
 

@@ -13,7 +13,8 @@ ENV PATH=$COP/bin:$PATH
 
 EXPOSE 8888
 
-RUN mkdir -p $GOPATH/src/github.com/hyperledger
+RUN mkdir -p $GOPATH/src/github.com/hyperledger \
+        && mkdir -p /var/hyperledger/fabric/.cop
 
 RUN go get github.com/go-sql-driver/mysql \
     && go get github.com/lib/pq
@@ -26,4 +27,5 @@ RUN cd $GOPATH/src/github.com/hyperledger \
 
 WORKDIR $GOPATH/src/github.com/hyperledger/fabric-cop
 
-CMD ["cop", "server", "start", "-ca", "./testdata/cop-cert.pem", "-ca-key", "./testdata/cop-key.pem", "-config", "./testdata/cop.json"]
+# cop server start -ca $CA_CERTIFICATE -ca-key $CA_KEY_CERTIFICATE -config $COP_CONFIG -address "0.0.0.0"
+CMD ["cop", "server", "start", "-ca", "./testdata/ec.pem", "-ca-key", "./testdata/ec-key.pem", "-config", "./testdata/cop.json", "-address", "0.0.0.0"]

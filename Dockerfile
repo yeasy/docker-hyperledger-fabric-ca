@@ -9,7 +9,7 @@ MAINTAINER Baohua Yang
 ENV COP_DEBUG false
 ENV COP $GOPATH/src/github.com/hyperledger/fabric-cop
 # Then we can run `cop` cmd directly
-ENV PATH=$COP/bin/:$PATH
+ENV PATH=$COP/bin:$PATH
 
 EXPOSE 8888
 
@@ -26,4 +26,4 @@ RUN cd $GOPATH/src/github.com/hyperledger \
 
 WORKDIR $GOPATH/src/github.com/hyperledger/fabric-cop
 
-CMD ["cop", "server", "start", "-ca", "../testdata/cop-cert.pem", "-ca-key", "../testdata/cop-key.pem", "-config", "../testdata/cop.json"]
+CMD ["cop", "server", "start", "-ca", "./testdata/cop-cert.pem", "-ca-key", "./testdata/cop-key.pem", "-config", "./testdata/cop.json"]

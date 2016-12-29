@@ -9,7 +9,7 @@ MAINTAINER Baohua Yang <yangbaohua@gmail.com>
 ENV COP_DEBUG false
 ENV COP_HOME $GOPATH/src/github.com/hyperledger/fabric-cop
 # Then we can run `cop` cmd directly
-ENV PATH=$COP/bin:$PATH
+ENV PATH=$COP_HOME/bin:$PATH
 
 EXPOSE 8888
 

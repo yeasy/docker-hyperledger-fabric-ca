@@ -4,10 +4,10 @@
 # More usage infomation, please see https://github.com/hyperledger/fabric-cop.
 
 FROM golang:1.7
-MAINTAINER Baohua Yang
+MAINTAINER Baohua Yang <yangbaohua@gmail.com>
 
 ENV COP_DEBUG false
-ENV COP $GOPATH/src/github.com/hyperledger/fabric-cop
+ENV COP_HOME $GOPATH/src/github.com/hyperledger/fabric-cop
 # Then we can run `cop` cmd directly
 ENV PATH=$COP/bin:$PATH
 

@@ -19,7 +19,8 @@ ENV CSR_CONFIG=$COP_CFG_HOME/csr.json
 EXPOSE 8888
 
 RUN mkdir -p $GOPATH/src/github.com/hyperledger \
-        && mkdir -p /var/hyperledger/fabric/.cop
+        && mkdir -p /var/hyperledger/fabric/.cop \
+        && mkdir -p ~/.cop
 
 RUN go get github.com/go-sql-driver/mysql \
     && go get github.com/lib/pq
@@ -32,6 +33,8 @@ RUN cd $GOPATH/src/github.com/hyperledger \
     && cp docker/fabric-cop/csr.json $COP_CFG_HOME \
     && cp docker/fabric-cop/ec.pem $COP_CFG_HOME \
     && cp docker/fabric-cop/ec-key.pem $COP_CFG_HOME \
+    && cp docker/fabric-cop/ec.pem ~/.cop \
+    && cp docker/fabric-cop/ec-key.pem ~/.cop \
     && mkdir -p bin && cd cli && go build -o ../bin/cop
 
 WORKDIR $GOPATH/src/github.com/hyperledger/fabric-cop

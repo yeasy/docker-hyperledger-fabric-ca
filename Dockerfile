@@ -10,6 +10,11 @@ ENV COP_DEBUG false
 ENV COP_HOME $GOPATH/src/github.com/hyperledger/fabric-cop
 # Then we can run `cop` cmd directly
 ENV PATH=$COP_HOME/bin:$PATH
+ENV COP_CFG_HOME=/var/hyperledger/fabric/.cop
+ENV CA_CERTIFICATE=$COP_CFG_HOME/ec.pem
+ENV CA_KEY_CERTIFICATE=$COP_CFG_HOME/ec-key.pem
+ENV COP_CONFIG=$COP_CFG_HOME/cop.json
+ENV CSR_CONFIG=$COP_CFG_HOME/csr.json
 
 EXPOSE 8888
 
@@ -23,9 +28,12 @@ RUN go get github.com/go-sql-driver/mysql \
 RUN cd $GOPATH/src/github.com/hyperledger \
     && git clone --single-branch -b master --depth 1 https://github.com/hyperledger/fabric-cop \
     && cd fabric-cop \
-    && mkdir -p bin && cd cli && go build -o ../bin/cop
+    && mkdir -p bin && cd cli && go build -o ../bin/cop \
+    && cp docker/fabric-cop/*.json $COP_CFG_HOME/ \
+    && cp docker/fabric-cop/*.pem $COP_CFG_HOME/
 
 WORKDIR $GOPATH/src/github.com/hyperledger/fabric-cop
 
 # cop server start -ca $CA_CERTIFICATE -ca-key $CA_KEY_CERTIFICATE -config $COP_CONFIG -address "0.0.0.0"
-CMD ["cop", "server", "start", "-ca", "./testdata/ec.pem", "-ca-key", "./testdata/ec-key.pem", "-config", "./testdata/cop.json", "-address", "0.0.0.0"]
+# cop server start -ca ./testdata/ec.pem -ca-key ./testdata/ec-key.pem -config ./testdata/cop.json -address "0.0.0.0"
+CMD ["cop", "server", "start", "-ca", "$CA_CERTIFICATE", "-ca-key", "$CA_KEY_CERTIFICATE", "-config", "$COP_CONFIG", "-address", "0.0.0.0"]

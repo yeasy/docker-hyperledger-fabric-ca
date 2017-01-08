@@ -37,8 +37,12 @@ RUN cd $GOPATH/src/github.com/hyperledger \
     && cp docker/fabric-cop/ec-key.pem ~/.cop \
     && mkdir -p bin && cd cli && go build -o ../bin/cop
 
+# Fix path break in the cfg file
+COPY ./cop.json $COP_CFG_HOME
+
 WORKDIR $GOPATH/src/github.com/hyperledger/fabric-cop
 
 # cop server start -ca $CA_CERTIFICATE -ca-key $CA_KEY_CERTIFICATE -config $COP_CONFIG -address "0.0.0.0"
 # cop server start -ca ./testdata/ec.pem -ca-key ./testdata/ec-key.pem -config ./testdata/cop.json -address "0.0.0.0"
-CMD ["cop", "server", "start", "-ca", "$CA_CERTIFICATE", "-ca-key", "$CA_KEY_CERTIFICATE", "-config", "$COP_CONFIG", "-address", "0.0.0.0"]
+#CMD ["cop", "server", "start", "-ca", "$CA_CERTIFICATE", "-ca-key", "$CA_KEY_CERTIFICATE", "-config", "$COP_CONFIG", "-address", "0.0.0.0"]
+CMD ["bash", "-c", "cop server start -ca $CA_CERTIFICATE -ca-key $CA_KEY_CERTIFICATE -config $COP_CONFIG -address 0.0.0.0"]

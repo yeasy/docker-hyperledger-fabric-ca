@@ -29,8 +29,10 @@ RUN cd $GOPATH/src/github.com/hyperledger \
     && git clone --single-branch -b master --depth 1 https://github.com/hyperledger/fabric-cop \
     && cd fabric-cop \
     && mkdir -p bin && cd cli && go build -o ../bin/cop \
-    && cp docker/fabric-cop/*.json $COP_CFG_HOME/ \
-    && cp docker/fabric-cop/*.pem $COP_CFG_HOME/
+    && cp docker/fabric-cop/cop.json $COP_CFG_HOME/ \
+    && cp docker/fabric-cop/csr.json $COP_CFG_HOME/ \
+    && cp docker/fabric-cop/ec.pem $COP_CFG_HOME/ \
+    && cp docker/fabric-cop/ec-key.pem $COP_CFG_HOME/
 
 WORKDIR $GOPATH/src/github.com/hyperledger/fabric-cop
 

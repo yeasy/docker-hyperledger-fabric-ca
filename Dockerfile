@@ -10,11 +10,11 @@ ENV COP_DEBUG false
 ENV COP_HOME $GOPATH/src/github.com/hyperledger/fabric-cop
 # Then we can run `cop` cmd directly
 ENV PATH=$COP_HOME/bin:$PATH
-ENV COP_CFG_HOME=/var/hyperledger/fabric/.cop
-ENV CA_CERTIFICATE=$COP_CFG_HOME/ec.pem
-ENV CA_KEY_CERTIFICATE=$COP_CFG_HOME/ec-key.pem
-ENV COP_CONFIG=$COP_CFG_HOME/cop.json
-ENV CSR_CONFIG=$COP_CFG_HOME/csr.json
+#ENV COP_CFG_HOME=/var/hyperledger/fabric/.cop
+#ENV CA_CERTIFICATE=$COP_CFG_HOME/ec.pem
+#ENV CA_KEY_CERTIFICATE=$COP_CFG_HOME/ec-key.pem
+#ENV COP_CONFIG=$COP_CFG_HOME/cop.json
+#ENV CSR_CONFIG=$COP_CFG_HOME/csr.json
 
 EXPOSE 8888
 
@@ -29,20 +29,21 @@ RUN go get github.com/go-sql-driver/mysql \
 RUN cd $GOPATH/src/github.com/hyperledger \
     && git clone --single-branch -b master --depth 1 https://github.com/hyperledger/fabric-cop \
     && cd fabric-cop \
-    && cp docker/fabric-cop/cop.json $COP_CFG_HOME \
-    && cp docker/fabric-cop/csr.json $COP_CFG_HOME \
-    && cp docker/fabric-cop/ec.pem $COP_CFG_HOME \
-    && cp docker/fabric-cop/ec-key.pem $COP_CFG_HOME \
-    && cp docker/fabric-cop/ec.pem ~/.cop \
-    && cp docker/fabric-cop/ec-key.pem ~/.cop \
+#   && cp docker/fabric-cop/cop.json $COP_CFG_HOME \
+#   && cp docker/fabric-cop/csr.json $COP_CFG_HOME \
+#   && cp docker/fabric-cop/ec.pem $COP_CFG_HOME \
+#   && cp docker/fabric-cop/ec-key.pem $COP_CFG_HOME \
+#   && cp docker/fabric-cop/ec.pem ~/.cop \
+#   && cp docker/fabric-cop/ec-key.pem ~/.cop \
     && mkdir -p bin && cd cli && go build -o ../bin/cop
 
-# Fix path break in the cfg file
-COPY ./cop.json $COP_CFG_HOME
+# Disable the tls in the existing cfg file
+COPY ./testconfig.json $GOPATH/src/github.com/hyperledger/fabric-cop/testdata/
 
 WORKDIR $GOPATH/src/github.com/hyperledger/fabric-cop
 
 # cop server start -ca $CA_CERTIFICATE -ca-key $CA_KEY_CERTIFICATE -config $COP_CONFIG -address "0.0.0.0"
-# cop server start -ca ./testdata/ec.pem -ca-key ./testdata/ec-key.pem -config ./testdata/cop.json -address "0.0.0.0"
 #CMD ["cop", "server", "start", "-ca", "$CA_CERTIFICATE", "-ca-key", "$CA_KEY_CERTIFICATE", "-config", "$COP_CONFIG", "-address", "0.0.0.0"]
-CMD ["bash", "-c", "cop server start -ca $CA_CERTIFICATE -ca-key $CA_KEY_CERTIFICATE -config $COP_CONFIG -address 0.0.0.0"]
+#CMD ["bash", "-c", "cop server start -ca $CA_CERTIFICATE -ca-key $CA_KEY_CERTIFICATE -config $COP_CONFIG -address 0.0.0.0"]
+#CMD ["bash", "-c", "cop server start -ca ./testdata/ec.pem -ca-key ./testdata/ec-key.pem -config ./testdata/cop.json -address 0.0.0.0"]
+CMD ["bash", "-c", "cop server start -ca ./testdata/ec.pem -ca-key ./testdata/ec-key.pem -config ./testdata/testconfig.json -address 0.0.0.0"]

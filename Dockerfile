@@ -10,7 +10,7 @@ ENV COP_DEBUG false
 ENV COP_HOME $GOPATH/src/github.com/hyperledger/fabric-ca
 # Then we can run `ca` cmd directly
 ENV PATH=$COP_HOME/bin:$PATH
-#ENV COP_CFG_HOME=/var/hyperledger/fabric/.ca
+#ENV COP_CFG_HOME=/etc/hyperledger/fabric/.ca
 #ENV CA_CERTIFICATE=$COP_CFG_HOME/ec.pem
 #ENV CA_KEY_CERTIFICATE=$COP_CFG_HOME/ec-key.pem
 #ENV COP_CONFIG=$COP_CFG_HOME/ca.json
@@ -19,8 +19,8 @@ ENV PATH=$COP_HOME/bin:$PATH
 EXPOSE 8888
 
 RUN mkdir -p $GOPATH/src/github.com/hyperledger \
-        && mkdir -p /var/hyperledger/fabric/.ca \
-        && mkdir -p ~/.ca
+        && mkdir -p /etc/hyperledger/fabric-ca \
+        && mkdir -p ~/.fabric-ca
 
 RUN go get github.com/go-sql-driver/mysql \
     && go get github.com/lib/pq

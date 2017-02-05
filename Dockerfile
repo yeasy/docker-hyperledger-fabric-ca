@@ -16,7 +16,7 @@ ENV PATH=$COP_HOME/bin:$PATH
 #ENV COP_CONFIG=$COP_CFG_HOME/ca.json
 #ENV CSR_CONFIG=$COP_CFG_HOME/csr.json
 
-EXPOSE 8888
+EXPOSE 7054
 
 RUN mkdir -p $GOPATH/src/github.com/hyperledger \
         && mkdir -p /etc/hyperledger/fabric-ca \

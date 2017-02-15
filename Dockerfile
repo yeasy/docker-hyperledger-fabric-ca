@@ -10,9 +10,6 @@ ENV FABRIC_CA_DEBUG true
 ENV FABRIC_CA_PATH $GOPATH/src/github.com/hyperledger/fabric-ca
 ENV CA_CFG_PATH /etc/hyperledger/fabric-ca
 
-# this name is confusing
-ENV FABRIC_CA_HOME /etc/hyperledger/fabric-ca
-
 # Then we can run `ca` cmd directly
 ENV PATH=$FABRIC_CA_PATH/bin:$PATH
 

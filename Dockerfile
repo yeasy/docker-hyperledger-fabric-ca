@@ -8,7 +8,9 @@ MAINTAINER Baohua Yang <yangbaohua@gmail.com>
 
 ENV FABRIC_CA_DEBUG true
 ENV FABRIC_CA_PATH $GOPATH/src/github.com/hyperledger/fabric-ca
+
 ENV CA_CFG_PATH /etc/hyperledger/fabric-ca
+ENV CERT_PATH /.fabric-ca
 
 # Then we can run `ca` cmd directly
 ENV PATH=$FABRIC_CA_PATH/bin:$PATH
@@ -17,7 +19,7 @@ EXPOSE 7054
 
 VOLUME $CA_CFG_PATH
 
-RUN mkdir -p $GOPATH/src/github.com/hyperledger /var/hyperledger/fabric-ca
+RUN mkdir -p $GOPATH/src/github.com/hyperledger /var/hyperledger/fabric-ca $CERT_PATH
 
 #RUN go get github.com/go-sql-driver/mysql \
 #    && go get github.com/lib/pq
@@ -33,11 +35,10 @@ RUN cd $GOPATH/src/github.com/hyperledger \
     && go build -ldflags " -linkmode external -extldflags '-static -lpthread'" -o bin/fabric-ca-client ./cmd/fabric-ca-client \
 #copy the sample cfg files
     && cp $FABRIC_CA_PATH/images/fabric-ca/config/* $CA_CFG_PATH/ \
-    && mkdir -p /.fabric-ca \
-    && cp $FABRIC_CA_PATH/images/fabric-ca/*.pem /.fabric-ca
+    && cp $FABRIC_CA_PATH/images/fabric-ca/certs/*.pem $CERT_PATH
 
 # Disable the tls in the existing cfg file
-COPY ./testconfig.json $FABRIC_CA_PATH/testdata/
+# COPY ./testconfig.json $FABRIC_CA_PATH/testdata/
 
 WORKDIR $FABRIC_CA_PATH
 

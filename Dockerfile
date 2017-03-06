@@ -22,6 +22,11 @@ VOLUME $CA_CFG_PATH
 
 RUN mkdir -p $GOPATH/src/github.com/hyperledger $CA_CFG_PATH $FABRIC_CA_HOME $CERT_PATH /var/hyperledger/fabric-ca-server
 
+# The base image has libltdl-dev already, but seems the header file ltdl.h is still missed
+RUN apt-get update \
+        && apt-get install -y libtool \
+        && rm -rf /var/cache/apt
+
 #RUN go get github.com/go-sql-driver/mysql \
 #    && go get github.com/lib/pq
 

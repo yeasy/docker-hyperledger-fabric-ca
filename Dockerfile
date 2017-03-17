@@ -34,11 +34,11 @@ RUN apt-get update \
 RUN cd $GOPATH/src/github.com/hyperledger \
     && git clone --single-branch -b master --depth 1 https://github.com/hyperledger/fabric-ca \
     && cd fabric-ca \
-    && go install -ldflags " -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca \
+#&& go install -ldflags " -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca \
 #this are wrapper cmds for client/server
     && mkdir -p bin \
-    && go build -ldflags " -linkmode external -extldflags '-static -lpthread'" -o bin/fabric-ca-server ./cmd/fabric-ca-server \
-    && go build -ldflags " -linkmode external -extldflags '-static -lpthread'" -o bin/fabric-ca-client ./cmd/fabric-ca-client \
+    && go build -o bin/fabric-ca-server ./cmd/fabric-ca-server \
+    && go build -o bin/fabric-ca-client ./cmd/fabric-ca-client \
 #copy the sample cfg files
     && cp $FABRIC_CA_PATH/images/fabric-ca/payload/*.pem $FABRIC_CA_HOME/
 

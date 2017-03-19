@@ -7,8 +7,9 @@ FROM golang:1.7
 MAINTAINER Baohua Yang <yangbaohua@gmail.com>
 
 
-# ca-server will try checking the following env in order, to get the home directory
+# ca-server and ca-client will try checking the following env in order, to get the home directory
 ENV FABRIC_CA_SERVER_HOME /etc/hyperledger/fabric-ca-server
+ENV FABRIC_CA_CLIENT_HOME $HOME/.fabric-ca-client
 ENV FABRIC_CA_HOME /etc/hyperledger/fabric-ca-server
 ENV CA_CFG_PATH /etc/hyperledger/fabric-ca
 
@@ -20,9 +21,10 @@ ENV PATH=$FABRIC_CA_PATH/bin:$PATH
 
 EXPOSE 7054
 
-VOLUME $FABRIC_CA_HOME
+VOLUME $FABRIC_CA_SERVER_HOME
+VOLUME $FABRIC_CA_CLIENT_HOME
 
-RUN mkdir -p $GOPATH/src/github.com/hyperledger $CA_CFG_PATH $FABRIC_CA_HOME /var/hyperledger/fabric-ca-server
+RUN mkdir -p $GOPATH/src/github.com/hyperledger $FABRIC_CA_SERVER_HOME $FABRIC_CA_CLIENT_HOME $CA_CFG_PATH /var/hyperledger/fabric-ca-server
 
 # The base image has libltdl-dev already, but we still need libtool to provide the header file ltdl.h
 RUN apt-get update \

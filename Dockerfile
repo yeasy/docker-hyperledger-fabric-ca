@@ -22,24 +22,16 @@ VOLUME $CA_CFG_PATH
 
 RUN mkdir -p $GOPATH/src/github.com/hyperledger $CA_CFG_PATH $FABRIC_CA_HOME $CERT_PATH /var/hyperledger/fabric-ca-server
 
-# The base image has libltdl-dev already, but seems the header file ltdl.h is still missed
+# The base image has libltdl-dev already, but we still need libtool to provide the header file ltdl.h
 RUN apt-get update \
         && apt-get install -y libtool \
         && rm -rf /var/cache/apt
 
-#RUN go get github.com/go-sql-driver/mysql \
-#    && go get github.com/lib/pq
-
 # clone and build ca
 RUN cd $GOPATH/src/github.com/hyperledger \
     && git clone --single-branch -b master --depth 1 https://github.com/hyperledger/fabric-ca \
-    && cd fabric-ca \
-#&& go install -ldflags " -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca \
-#this are wrapper cmds for client/server
-    && mkdir -p bin \
-    && go build -o bin/fabric-ca-server ./cmd/fabric-ca-server \
-    && go build -o bin/fabric-ca-client ./cmd/fabric-ca-client \
-#copy the sample cfg files
+# This will install fabric-ca-server and fabric-ca-client which are under cmd into $GOPATH/bin/
+    && go install github.com/hyperledger/fabric-ca/cmd/... \
     && cp $FABRIC_CA_PATH/images/fabric-ca/payload/*.pem $FABRIC_CA_HOME/
 
 # Disable the tls in the existing cfg file

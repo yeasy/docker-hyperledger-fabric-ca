@@ -11,6 +11,7 @@ MAINTAINER Baohua Yang <yangbaohua@gmail.com>
 ENV FABRIC_CA_SERVER_HOME /etc/hyperledger/fabric-ca-server
 ENV FABRIC_CA_CLIENT_HOME $HOME/.fabric-ca-client
 ENV FABRIC_CA_HOME /etc/hyperledger/fabric-ca-server
+
 ENV CA_CFG_PATH /etc/hyperledger/fabric-ca
 
 # This is just for simplifying this Dockerfile
@@ -47,4 +48,5 @@ WORKDIR $FABRIC_CA_PATH
 
 # if no config exists under $FABRIC_CA_HOME, will init fabric-ca-server-config.yaml and fabric-ca-server.db
 # by default, the server will enable '-address 0.0.0.0'
-CMD ["bash", "-c", "fabric-ca-server start -b admin:adminpw"]
+#CMD ["bash", "-c", "fabric-ca-server start -b admin:adminpw"]
+CMD ["bash", "-c", "fabric-ca-server start --ca.certfile $FABRIC_CA_HOME/ca-cert.pem --ca.keyfile $FABRIC_CA_HOME/ca-key.pem -b admin:adminpw"]

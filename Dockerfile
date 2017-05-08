@@ -20,7 +20,6 @@ ENV PATH=$FABRIC_CA_CODE/bin:$PATH
 
 EXPOSE 7054
 
-#VOLUME $FABRIC_CA_SERVER_HOME
 #VOLUME $FABRIC_CA_CLIENT_HOME
 
 RUN mkdir -p $GOPATH/src/github.com/hyperledger \
@@ -43,6 +42,8 @@ RUN cd $GOPATH/src/github.com/hyperledger \
 
 # Disable the tls in the existing cfg file
 # COPY ./testconfig.json $FABRIC_CA_HOME/testdata/
+
+VOLUME $FABRIC_CA_SERVER_HOME
 
 WORKDIR $FABRIC_CA_CODE
 

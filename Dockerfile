@@ -13,10 +13,10 @@ ENV FABRIC_CA_CLIENT_HOME $HOME/.fabric-ca-client
 ENV CA_CFG_PATH /etc/hyperledger/fabric-ca
 
 # This is go simplify this Dockerfile
-ENV FABRIC_CA_CODE $GOPATH/src/github.com/hyperledger/fabric-ca
+ENV FABRIC_CA_ROOT $GOPATH/src/github.com/hyperledger/fabric-ca
 
 # Usually the binary will be installed into $GOPATH/bin, but we add local build path, too
-ENV PATH=$FABRIC_CA_CODE/bin:$PATH
+ENV PATH=$FABRIC_CA_ROOT/bin:$PATH
 
 # fabric-ca-server will open service to '0.0.0.0:7054/api/v1/'
 EXPOSE 7054
@@ -38,7 +38,7 @@ RUN cd $GOPATH/src/github.com/hyperledger \
 # This will install fabric-ca-server and fabric-ca-client into $GOPATH/bin/
     && go install -ldflags " -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
 # Copy example ca and key files
-    && cp $FABRIC_CA_CODE/images/fabric-ca/payload/*.pem $FABRIC_CA_HOME/
+    && cp $FABRIC_CA_ROOT/images/fabric-ca/payload/*.pem $FABRIC_CA_HOME/
 
 # Disable the tls in the existing cfg file
 # COPY ./testconfig.json $FABRIC_CA_HOME/testdata/
@@ -46,7 +46,7 @@ RUN cd $GOPATH/src/github.com/hyperledger \
 VOLUME $FABRIC_CA_SERVER_HOME
 VOLUME $FABRIC_CA_CLIENT_HOME
 
-WORKDIR $FABRIC_CA_CODE
+WORKDIR $FABRIC_CA_ROOT
 
 # if no config exists under $FABRIC_CA_HOME, will init fabric-ca-server-config.yaml and fabric-ca-server.db
 CMD ["bash", "-c", "fabric-ca-server start -b admin:adminpw"]

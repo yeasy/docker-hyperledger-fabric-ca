@@ -1,4 +1,4 @@
-# Dockerfile for Hyperledger fabric ca image.
+# Dockerfile for Hyperledger fabric-ca image.
 # If you need a peer node to run, please see the yeasy/hyperledger-peer image.
 # Workdir is set to $GOPATH/src/github.com/hyperledger/fabric-ca
 # More usage infomation, please see https://github.com/yeasy/docker-hyperledger-fabric-ca.

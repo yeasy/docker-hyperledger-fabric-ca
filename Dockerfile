@@ -40,9 +40,6 @@ RUN cd $GOPATH/src/github.com/hyperledger \
 # Copy example ca and key files
     && cp $FABRIC_CA_ROOT/images/fabric-ca/payload/*.pem $FABRIC_CA_HOME/
 
-# Disable the tls in the existing cfg file
-# COPY ./testconfig.json $FABRIC_CA_HOME/testdata/
-
 VOLUME $FABRIC_CA_SERVER_HOME
 VOLUME $FABRIC_CA_CLIENT_HOME
 

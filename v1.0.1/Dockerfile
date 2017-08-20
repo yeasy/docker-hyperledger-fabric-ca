@@ -7,6 +7,7 @@ FROM golang:1.8
 LABEL maintainer "Baohua Yang <yeasy.github.com>"
 
 ENV BASE_VERSION 1.0.1
+ENV PROJECT_VERSION 1.0.1
 
 # ca-server and ca-client will check the following env in order, to get the home cfg path
 ENV FABRIC_CA_HOME /etc/hyperledger/fabric-ca-server
@@ -36,8 +37,9 @@ RUN apt-get update \
 
 # clone and build ca
 RUN cd $GOPATH/src/github.com/hyperledger \
-    && git clone --single-branch -b master https://github.com/hyperledger/fabric-ca \
-    && cd fabric-ca && git checkout v$BASE_VERSION \
+#&& git clone --single-branch -b master https://github.com/hyperledger/fabric-ca \
+#&& cd fabric-ca && git checkout v$BASE_VERSION \
+    && wget https://github.com/hyperledger/fabric-ca/archive/v${PROJECT_VERSION}.zip && unzip v${PROJECT_VERSION}.zip && rm v${PROJECT_VERSION}.zip && mv fabric-ca-${PROJECT_VERSION} fabric \
 # This will install fabric-ca-server and fabric-ca-client into $GOPATH/bin/
 #&& go install -ldflags " -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
     && go install -ldflags "-X github.com/hyperledger/fabric-ca/cmd.Version=$BASE_VERSION" github.com/hyperledger/fabric-ca/cmd/... \

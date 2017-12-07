@@ -5,6 +5,7 @@ Docker images for [Hyperledger Fabric CA](https://github.com/hyperledger/fabric-
 # Supported tags and respective Dockerfile links
 
 * [`latest` (latest/Dockerfile)](https://github.com/yeasy/docker-hyperledger-fabric-ca/blob/master/Dockerfile): Default to enable pbft as consensus.
+* [`v1.0.5` (v1.0.5/Dockerfile)](https://github.com/yeasy/docker-hyperledger-fabric-ca/blob/master/v1.0.5/Dockerfile): v1.0.5 release.
 * [`v1.1.0-preview` (v1.1.0-preview/Dockerfile)](https://github.com/yeasy/docker-hyperledger-fabric-ca/blob/master/v1.1.0-preview/Dockerfile): v1.1.0-preview release.
 * [`v1.0.4` (v1.0.4/Dockerfile)](https://github.com/yeasy/docker-hyperledger-fabric-ca/blob/master/v1.0.4/Dockerfile): v1.0.4 release.
 * [`v1.0.3` (v1.0.3/Dockerfile)](https://github.com/yeasy/docker-hyperledger-fabric-ca/blob/master/v1.0.3/Dockerfile): v1.0.3 release.

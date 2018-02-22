@@ -39,8 +39,10 @@ RUN apt-get update \
 RUN cd $GOPATH/src/github.com/hyperledger \
     && wget https://github.com/hyperledger/fabric-ca/archive/v${PROJECT_VERSION}.zip && unzip v${PROJECT_VERSION}.zip && rm v${PROJECT_VERSION}.zip && mv fabric-ca-${PROJECT_VERSION} fabric-ca \
 # This will install fabric-ca-server and fabric-ca-client into $GOPATH/bin/
-#&& go install -ldflags " -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
-    && go install -tags "nopkcs11" -ldflags "-X github.com/hyperledger/fabric-ca/cmd.Version=$BASE_VERSION" github.com/hyperledger/fabric-ca/cmd/... \
+# temp resolve the incompatibility between golang 19.4 and old version of pkcs11 pkg
+    && cd $FABRIC_ROOT \
+    && govendor fetch github.com/miekg/pkcs11 \
+    && go install -ldflags "-X github.com/hyperledger/fabric-ca/cmd.Version=$BASE_VERSION" github.com/hyperledger/fabric-ca/cmd/... \
 # Copy example ca and key files
     && cp $FABRIC_CA_ROOT/images/fabric-ca/payload/*.pem $FABRIC_CA_HOME/
 

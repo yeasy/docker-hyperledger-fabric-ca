@@ -6,8 +6,8 @@
 FROM golang:1.9
 LABEL maintainer "Baohua Yang <yeasy.github.com>"
 
-ENV BASE_VERSION 1.1.0-alpha
-ENV PROJECT_VERSION 1.1.0-alpha
+ENV BASE_VERSION 1.0.6
+ENV PROJECT_VERSION 1.0.6
 
 # ca-server and ca-client will check the following env in order, to get the home cfg path
 ENV FABRIC_CA_HOME /etc/hyperledger/fabric-ca-server
@@ -37,13 +37,10 @@ RUN apt-get update \
 
 # clone and build ca
 RUN cd $GOPATH/src/github.com/hyperledger \
-    && wget https://github.com/hyperledger/fabric-ca/archive/v${PROJECT_VERSION}.zip \
-    && unzip v${PROJECT_VERSION}.zip \
-    && rm v${PROJECT_VERSION}.zip \
-    && mv fabric-ca-${PROJECT_VERSION} fabric-ca \
+    && wget https://github.com/hyperledger/fabric-ca/archive/v${PROJECT_VERSION}.zip && unzip v${PROJECT_VERSION}.zip && rm v${PROJECT_VERSION}.zip && mv fabric-ca-${PROJECT_VERSION} fabric-ca \
 # This will install fabric-ca-server and fabric-ca-client into $GOPATH/bin/
 #&& go install -ldflags " -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
-    && go install -tags "nopkcs11" -ldflags "-X github.com/hyperledger/fabric-ca/lib/metadata.Version=$PROJECT_VERSION -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
+    && go install -tags "nopkcs11" -ldflags "-X github.com/hyperledger/fabric-ca/cmd.Version=$BASE_VERSION" github.com/hyperledger/fabric-ca/cmd/... \
 # Copy example ca and key files
     && cp $FABRIC_CA_ROOT/images/fabric-ca/payload/*.pem $FABRIC_CA_HOME/
 

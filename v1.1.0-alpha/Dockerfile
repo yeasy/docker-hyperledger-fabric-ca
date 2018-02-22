@@ -43,7 +43,7 @@ RUN cd $GOPATH/src/github.com/hyperledger \
     && mv fabric-ca-${PROJECT_VERSION} fabric-ca \
 # This will install fabric-ca-server and fabric-ca-client into $GOPATH/bin/
 #&& go install -ldflags " -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
-    && go install -ldflags "-X github.com/hyperledger/fabric-ca/cmd.Version=$BASE_VERSION" github.com/hyperledger/fabric-ca/cmd/... \
+    && go install -ldflags "-X github.com/hyperledger/fabric-ca/lib/metadata.Version=$PROJECT_VERSION -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
 # Copy example ca and key files
     && cp $FABRIC_CA_ROOT/images/fabric-ca/payload/*.pem $FABRIC_CA_HOME/
 

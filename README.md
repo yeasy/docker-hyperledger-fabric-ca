@@ -5,6 +5,7 @@ Docker images for [Hyperledger Fabric CA](https://github.com/hyperledger/fabric-
 # Supported tags and respective Dockerfile links
 
 * [`latest` (latest/Dockerfile)](https://github.com/yeasy/docker-hyperledger-fabric-ca/blob/master/Dockerfile): Default to enable pbft as consensus.
+* [`v1.1.0` (v1.1.0/Dockerfile)](https://github.com/yeasy/docker-hyperledger-fabric-ca/blob/master/v1.1.0/Dockerfile): v1.1.0release.
 * [`v1.1.0-rc1` (v1.1.0-rc1/Dockerfile)](https://github.com/yeasy/docker-hyperledger-fabric-ca/blob/master/v1.1.0-rc1/Dockerfile): v1.1.0-rc1 release.
 * [`v1.0.6` (v1.0.6/Dockerfile)](https://github.com/yeasy/docker-hyperledger-fabric-ca/blob/master/v1.0.6/Dockerfile): v1.0.6 release.
 * [`v1.0.5` (v1.0.5/Dockerfile)](https://github.com/yeasy/docker-hyperledger-fabric-ca/blob/master/v1.0.5/Dockerfile): v1.0.5 release.
@@ -19,7 +20,7 @@ Docker images for [Hyperledger Fabric CA](https://github.com/hyperledger/fabric-
 
 For more information about this image and its history, please see the relevant manifest file in the [`yeasy/docker-hyperledger-fabric-ca` GitHub repo](https://github.com/yeasy/docker-hyperledger-fabric-ca).
 
-If you want to quickly deploy a local cluster without any configuration and vagrant, please refer to [Start hyperledger clsuter using compose](https://github.com/yeasy/docker-compose-files#hyperledger).
+If you want to quickly deploy a local cluster without any configuration and vagrant, please refer to [Start hyperledger clsuter using compose](https://github.com/yeasy/docker-compose-files#hyperledger_fabric).
 
 # What is docker-hyperledger-fabric-ca?
 Docker image with hyperledger fabric-ca (memberservice for fabric 1.0).

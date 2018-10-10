@@ -34,8 +34,11 @@ RUN mkdir -p $GOPATH/src/github.com/hyperledger \
 # Need libtool to provide the header file ltdl.h
 RUN apt-get update \
         && apt-get install -y libtool unzip \
-        && pip install yq \
         && rm -rf /var/cache/apt
+
+# Install yq to update config
+RUN go get gopkg.in/mikefarah/yq.v2 \
+        && mv $GOPATH/bin/yq.v2 $GOPATH/bin/yq
 
 # clone and build ca
 RUN cd $GOPATH/src/github.com/hyperledger \

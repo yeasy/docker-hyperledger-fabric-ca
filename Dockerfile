@@ -32,9 +32,9 @@ RUN mkdir -p $GOPATH/src/github.com/hyperledger \
         /var/hyperledger/fabric-ca-server
 
 # Need libtool to provide the header file ltdl.h
-RUN add-apt-repository ppa:rmescandon/yq \
-        && apt-get update \
-        && apt-get install -y libtool unzip yq \
+RUN apt-get update \
+        && apt-get install -y libtool unzip \
+        && pip install yq \
         && rm -rf /var/cache/apt
 
 # clone and build ca

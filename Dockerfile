@@ -38,7 +38,7 @@ RUN apt-get update \
 
 # Install yq to update config
 RUN go get gopkg.in/mikefarah/yq.v2 \
-        && mv $GOPATH/bin/yq.v2 $GOPATH/bin/yq
+        && ln -s $GOPATH/bin/yq.v2 /usr/local/bin/yq
 
 # clone and build ca
 RUN cd $GOPATH/src/github.com/hyperledger \

@@ -6,7 +6,7 @@
 FROM golang:1.10
 LABEL maintainer "Baohua Yang <yeasy.github.com>"
 
-ENV PROJECT_VERSION 1.4.0
+ENV PROJECT_VERSION 1.3.0
 
 # ca-server and ca-client will check the following env in order, to get the home cfg path
 ENV FABRIC_CA_HOME /etc/hyperledger/fabric-ca-server
@@ -42,7 +42,10 @@ RUN go get gopkg.in/mikefarah/yq.v2 \
 
 # clone and build ca
 RUN cd $GOPATH/src/github.com/hyperledger \
-    && git clone --single-branch -b master --depth 1 https://github.com/hyperledger/fabric-ca \
+    && wget https://github.com/hyperledger/fabric-ca/archive/v${PROJECT_VERSION}.zip \
+    && unzip v${PROJECT_VERSION}.zip \
+    && rm v${PROJECT_VERSION}.zip \
+    && mv fabric-ca-${PROJECT_VERSION} fabric-ca \
 # This will install fabric-ca-server and fabric-ca-client into $GOPATH/bin/
     && go install -ldflags "-X github.com/hyperledger/fabric-ca/lib/metadata.Version=$PROJECT_VERSION -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
 # Copy example ca and key files

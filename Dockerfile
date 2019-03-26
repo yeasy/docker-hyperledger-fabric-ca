@@ -6,7 +6,7 @@
 FROM golang:1.11.5
 LABEL maintainer "Baohua Yang <yeasy.github.com>"
 
-ENV PROJECT_VERSION 1.4.0
+ENV PROJECT_VERSION 2.0.0
 
 # ca-server and ca-client will check the following env in order, to get the home cfg path
 ENV FABRIC_CA_HOME /etc/hyperledger/fabric-ca-server

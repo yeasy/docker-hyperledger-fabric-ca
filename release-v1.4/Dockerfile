@@ -36,9 +36,9 @@ RUN apt-get update \
         && apt-get install -y libtool unzip \
         && rm -rf /var/cache/apt
 
-# Install yq to update config
-#RUN go get gopkg.in/mikefarah/yq.v2 \
-#        && ln -s $GOPATH/bin/yq.v2 /usr/local/bin/yq
+# Install yq to update config for fabric-ca
+RUN wget -O /go/bin/yq https://github.com/mikefarah/yq/releases/download/2.4.1/yq_linux_amd64 \
+    && chmod a+x /go/bin/yq
 
 # clone and build ca
 RUN cd $GOPATH/src/github.com/hyperledger \

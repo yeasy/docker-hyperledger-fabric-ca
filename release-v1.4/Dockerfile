@@ -42,7 +42,7 @@ RUN wget -O /go/bin/yq https://github.com/mikefarah/yq/releases/download/2.4.1/y
 
 # clone and build ca
 RUN cd $GOPATH/src/github.com/hyperledger \
-    && git clone --single-branch -b release-1.4 --depth 1 http://gerrit.hyperledger.org/r/fabric-ca \
+    && git clone --single-branch -b release-1.4 --depth 1 https://github.com/hyperledger/fabric-ca.git \
 # This will install fabric-ca-server and fabric-ca-client into $GOPATH/bin/
     && go install -ldflags "-X github.com/hyperledger/fabric-ca/lib/metadata.Version=$PROJECT_VERSION -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
 # Copy example ca and key files

@@ -3,10 +3,10 @@
 # Workdir is set to $GOPATH/src/github.com/hyperledger/fabric-ca
 # More usage infomation, please see https://github.com/yeasy/docker-hyperledger-fabric-ca.
 
-FROM golang:1.11.5
+FROM golang:1.13
 LABEL maintainer "Baohua Yang <yeasy.github.com>"
 
-ENV PROJECT_VERSION 1.4.0
+ENV PROJECT_VERSION 1.4.7
 
 # ca-server and ca-client will check the following env in order, to get the home cfg path
 ENV FABRIC_CA_HOME /etc/hyperledger/fabric-ca-server

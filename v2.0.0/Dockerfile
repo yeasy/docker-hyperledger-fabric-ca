@@ -5,7 +5,7 @@
 # Workdir is set to $GOPATH/src/github.com/hyperledger/fabric-ca
 # More usage infomation, please see https://github.com/yeasy/docker-hyperledger-fabric-ca.
 
-FROM golang:1.13
+FROM golang:1.14
 LABEL maintainer "Baohua Yang <yeasy.github.com>"
 
 ENV PROJECT_VERSION 2.0.0

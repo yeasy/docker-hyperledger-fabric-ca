@@ -1,5 +1,3 @@
-# https://github.com/yeasy/docker-hyperledger-fabric-ca
-#
 # Dockerfile for Hyperledger fabric-ca image.
 # If you need a peer node to run, please see the yeasy/hyperledger-peer image.
 # Workdir is set to $GOPATH/src/github.com/hyperledger/fabric-ca
@@ -16,7 +14,7 @@ ENV FABRIC_CA_SERVER_HOME /etc/hyperledger/fabric-ca-server
 ENV FABRIC_CA_CLIENT_HOME $HOME/.fabric-ca-client
 ENV CA_CFG_PATH /etc/hyperledger/fabric-ca
 
-# This is to simplify this Dockerfile
+# This is go simplify this Dockerfile
 ENV FABRIC_CA_ROOT $GOPATH/src/github.com/hyperledger/fabric-ca
 
 # Usually the binary will be installed into $GOPATH/bin, but we add local build path, too
@@ -38,18 +36,20 @@ RUN apt-get update \
         && apt-get install -y libtool unzip \
         && rm -rf /var/cache/apt
 
-# Install yq to update config for fabric-ca
+# Install yq to update config
 RUN wget -O /go/bin/yq https://github.com/mikefarah/yq/releases/download/2.4.1/yq_linux_amd64 \
-    	&& chmod a+x /go/bin/yq
+    && chmod a+x /go/bin/yq
 
 # clone and build ca
 RUN cd $GOPATH/src/github.com/hyperledger \
-        && git clone --single-branch -b main --depth 1 https://github.com/hyperledger/fabric-ca \
+    && wget https://github.com/hyperledger/fabric-ca/archive/v${PROJECT_VERSION}.zip \
+    && unzip v${PROJECT_VERSION}.zip \
+    && rm v${PROJECT_VERSION}.zip \
+    && mv fabric-ca-${PROJECT_VERSION} fabric-ca \
 # This will install fabric-ca-server and fabric-ca-client into $GOPATH/bin/
-        && go install -ldflags "-X github.com/hyperledger/fabric-ca/lib/metadata.Version=$PROJECT_VERSION -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
+    && go install -ldflags "-X github.com/hyperledger/fabric-ca/lib/metadata.Version=$PROJECT_VERSION -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
 # Copy example ca and key files
-#&& cp $FABRIC_CA_ROOT/images/fabric-ca/payload/*.pem $FABRIC_CA_HOME/ \
-        && go clean
+    && cp $FABRIC_CA_ROOT/images/fabric-ca/payload/*.pem $FABRIC_CA_HOME/
 
 VOLUME $FABRIC_CA_SERVER_HOME
 VOLUME $FABRIC_CA_CLIENT_HOME

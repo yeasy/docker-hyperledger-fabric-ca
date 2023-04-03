@@ -8,12 +8,12 @@
 FROM golang:1.18
 LABEL maintainer "Baohua Yang <yeasy.github.com>"
 
-ENV PROJECT_VERSION 1.5.5
+ENV PROJECT_VERSION 1.5.6
 
 # ca-server and ca-client will check the following env in order, to get the home cfg path
 ENV FABRIC_CA_HOME /etc/hyperledger/fabric-ca-server
 ENV FABRIC_CA_SERVER_HOME /etc/hyperledger/fabric-ca-server
-ENV FABRIC_CA_CLIENT_HOME $HOME/.fabric-ca-client
+ENV FABRIC_CA_CLIENT_HOME /root/.fabric-ca-client
 ENV CA_CFG_PATH /etc/hyperledger/fabric-ca
 
 # This is to simplify this Dockerfile
@@ -35,7 +35,7 @@ RUN mkdir -p $GOPATH/src/github.com/hyperledger \
 
 # Need libtool to provide the header file ltdl.h
 RUN apt-get update \
-        && apt-get install -y libtool unzip \
+        && apt-get install -y libtool tree unzip \
         && rm -rf /var/cache/apt
 
 # Install yq to update config for fabric-ca
@@ -45,9 +45,10 @@ RUN wget -O /go/bin/yq https://github.com/mikefarah/yq/releases/download/2.4.1/y
 # clone and build ca
 RUN cd $GOPATH/src/github.com/hyperledger \
         && git clone --single-branch -b main --depth 1 https://github.com/hyperledger/fabric-ca \
-# This will install fabric-ca-server and fabric-ca-client into $GOPATH/bin/
+        && cd fabric-ca \
+# install fabric-ca-server and fabric-ca-client into $GOPATH/bin/
         && go install -ldflags "-X github.com/hyperledger/fabric-ca/lib/metadata.Version=$PROJECT_VERSION -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
-# Copy example ca and key files
+# copy example ca and key files
 #&& cp $FABRIC_CA_ROOT/images/fabric-ca/payload/*.pem $FABRIC_CA_HOME/ \
         && go clean
 

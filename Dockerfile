@@ -5,10 +5,10 @@
 # Workdir is set to $GOPATH/src/github.com/hyperledger/fabric-ca
 # More usage infomation, please see https://github.com/yeasy/docker-hyperledger-fabric-ca.
 
-FROM golang:1.18
+FROM golang:1.26
 LABEL maintainer "Baohua Yang <yeasy.github.com>"
 
-ENV PROJECT_VERSION 1.5.6
+ENV PROJECT_VERSION 1.5.18
 
 # ca-server and ca-client will check the following env in order, to get the home cfg path
 ENV FABRIC_CA_HOME /etc/hyperledger/fabric-ca-server
@@ -44,7 +44,10 @@ RUN wget -O /go/bin/yq https://github.com/mikefarah/yq/releases/download/2.4.1/y
 
 # clone and build ca
 RUN cd $GOPATH/src/github.com/hyperledger \
-        && git clone --single-branch -b main --depth 1 https://github.com/hyperledger/fabric-ca \
+        && wget https://github.com/hyperledger/fabric-ca/archive/v${PROJECT_VERSION}.zip \
+        && unzip v${PROJECT_VERSION}.zip \
+        && rm v${PROJECT_VERSION}.zip \
+        && mv fabric-ca-${PROJECT_VERSION} fabric-ca \
         && cd fabric-ca \
 # install fabric-ca-server and fabric-ca-client into $GOPATH/bin/
         && go install -ldflags "-X github.com/hyperledger/fabric-ca/lib/metadata.Version=$PROJECT_VERSION -linkmode external -extldflags '-static -lpthread'" github.com/hyperledger/fabric-ca/cmd/... \
